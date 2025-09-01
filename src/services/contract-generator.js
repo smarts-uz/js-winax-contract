@@ -20,17 +20,29 @@ function getComNameInitials(comName) {
 }
 
 /**
- * Generates a contract number in the format: RC-<Initials>-<DD>-<MM>-<YYYY>
+ * Generates a contract number using the ContractFormat from the contract data.
+ * Supported placeholders: {ContractPrefix}, {ComName}, {Day}, {Month}, {Year}
  * @param {Object} data - The contract data object.
  * @returns {string} - The generated contract number.
  */
-function generateContractNum(data) {
-    const day = String(data['Day']).padStart(2, '0');
-    const month = String(data['Month']).padStart(2, '0');
-    const year = String(data['Year']);
-    const comName = data['ComName'];
-    const initials = getComNameInitials(comName);
-    return `RC-${initials}-${day}-${month}-${year}`;
+function generateContractNumFromFormat(data) {
+    // Read ContractNumber object if exists
+    const contractObj = data['ContractNumber'] || {};
+
+    // Use the format string from ContractNumber or a default
+    const format = contractObj['ContractFormat'] || '{ContractPrefix}-{ComName}-{Day}{Month}{Year}';
+
+    // Prepare values for placeholders
+    const values = {
+        ContractPrefix: contractObj['ContractPrefix'] || 'RC',
+        ComName: getComNameInitials(data['ComName']),
+        Day: String(data['Day']).padStart(2, '0'),
+        Month: String(data['Month']).padStart(2, '0'),
+        Year: String(data['Year'])
+    };
+
+    // Replace placeholders in the format string
+    return format.replace(/\{(ContractPrefix|ComName|Day|Month|Year)\}/g, (_, key) => values[key] || '');
 }
 
 /**
@@ -41,14 +53,17 @@ function generateContractNum(data) {
  * @returns {Object} - Paths to the generated DOCX and PDF files.
  */
 function generateContractFiles(data, ymlFilePath, templatePath) {
-    // Use existing contract number if provided, otherwise generate new one
+    // Use existing contract number if provided, otherwise generate from ContractFormat
     const contractNum = data['Contract'] && data['Contract'].trim() !== '' 
         ? data['Contract'] 
-        : generateContractNum(data);
+        : generateContractNumFromFormat(data);
+    
+    console.log(data['ContractPrefix']);
+    
 
     let area = data['Area'];
 
-    const company = data['MyName'].includes('SMART TEAMS') ? 'LLC' : 'Person';
+    const company = data['MyName'] && data['MyName'].includes('SMART TEAMS') ? 'LLC' : 'Person';
 
     // Start Word application (invisible)
     const word = new winax.Object('Word.Application');

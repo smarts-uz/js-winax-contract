@@ -1,38 +1,47 @@
 
-Day: 25
+Day: 22
 Month: 4
 Year: 2025
 
-Area: 5
+Area: 18
 
-Contract: komolkomol
+
+ContractNumber:
+  ContractPrefix: RCP
+  ContractFormat: "{ContractPrefix}-{ComName}-{Day}-{Month}-{Year}"
+
+TelegramGroupID: -1002893551657
+TelegramTopicID: 130
 
 ComType: ООО
-ComName: DRAGON GATE 
+ComBase: Устава 
+ComName: MECHANICAL SILK
 ComAddress: город Ташкент, Юнусабадский район, Adolat MFY, 4 mavzesi, 28/1-uy
-ComINN: 312088793
-ComOKED: 72200 
+ComINN: 312078458
+ComOKED: 29100 
 ComBank: ТОШКЕНТ Ш., ""Ўзмиллийбанк"" АЖ Яккасарой БХМ
 ComMFO: 00450
-ComRS:  
+ComRS: 20208000607232802001
 ComPhone: +99895-957-08-87
 
 DirPosition: директора
-DirName: VAYSOVA MARIYEM ALIMBAYEVNA
-DirPINFL: 40806630530045
+DirName: SULEYMANOV FARXAT ABDUGANIYEVICH
+DirPINFL: 31909731230028
 DirNationality: Республики Узбекистан
 DirPositionApp: директором
-DirPassport: AD1798553
-DirAddress: г. Ташкент, Учтепинский район Тошкент шаҳри, Учтепа, 26 мавзе, Уй 16, Квартира 72
-DirPhone: 908260883
+DirPassport: AD1542521
+DirAddress: г. Ташкент, Юнусабадский район, кв. 5, Кушчинор МСГ, 5а- Дом, 100- Квартира
+DirPhone: 930003698, 977730669
 
-Price1: 450000
-Price3: 420000
-Price6: 390000
-Price12: 300000 
-Price24: 200000
+Price1: 1620000
+Price3: 1560000
+Price6: 1500000
+Price12: 1400000 
+Price24: 1200000
+PriceTax: , с учётом всех налогов
 
-MyName: ООО «SMART TEAMS RENT»
+MyName: ООО «SMART TEAMS RENT», в лице директора Закирова Асрора Аскар угли
+MyAction: действующего
 MyBase: Устава
 MyINN: 311958304
 MyOKED: 68202
