@@ -5,9 +5,9 @@ Year: 2024
 
 Area: 18
 
-ContractNumber: Dilbek
-ContractPrefix: RC
-ContractFormat: "{Prefix}-{CName}-{Day}{Month}{Year}"
+ContractNumber:
+ContractPrefix:
+ContractFormat:
 
 TelegramGroupID: -1002893551657
 TelegramTopicID: 130

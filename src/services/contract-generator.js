@@ -40,26 +40,31 @@ function sanitizeYAML(content) {
 /* ============================
    Function: Generate Contract Number
    ============================ */
-function generateContractNumFromFormat(data) {
-  const prefix = data["ContractPrefix"] || "RC";
-  const format =
-    data["ContractFormat"] || "{ContractPrefix}-{ComName}-{Day}{Month}{Year}";
-
-  const values = {
-    ContractPrefix: prefix,
-    Prefix: prefix,
-    ComName: getComNameInitials(data["ComName"]),
-    CName: getComNameInitials(data["ComName"]),
-    Day: String(data["Day"] || "").padStart(2, "0"),
-    Month: String(data["Month"] || "").padStart(2, "0"),
-    Year: String(data["Year"] || "")
-  };
-
-  return format.replace(
-    /\{(ContractPrefix|Prefix|ComName|CName|Day|Month|Year)\}/g,
-    (_, key) => values[key] || ""
-  );
-}
+   function generateContractNumFromFormat(data) {
+    const prefix = data["ContractPrefix"] && data["ContractPrefix"].trim()
+      ? data["ContractPrefix"].trim()
+      : "RC";
+  
+    const format = data["ContractFormat"] && data["ContractFormat"].trim()
+      ? data["ContractFormat"].trim()
+      : "RC-{Year}-{Month}-{Day}";
+  
+    const values = {
+      ContractPrefix: prefix,
+      Prefix: prefix,
+      ComName: getComNameInitials(data["ComName"]),
+      CName: getComNameInitials(data["ComName"]),
+      Day: String(data["Day"] || "").padStart(2, "0"),
+      Month: String(data["Month"] || "").padStart(2, "0"),
+      Year: String(data["Year"] || "")
+    };
+  
+    return format.replace(
+      /\{(ContractPrefix|Prefix|ComName|CName|Day|Month|Year)\}/g,
+      (_, key) => values[key] || ""
+    );
+  }
+  
 
 /* ============================
    Function: Generate Contract Files (DOCX and PDF)
