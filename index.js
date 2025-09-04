@@ -12,12 +12,12 @@ const __dirname = path.dirname(__filename);
 
 
 if (process.argv.length < 4) {
-    console.error('Usage: node index.js <data.yml> <template.docx>');
+    console.error('Usage: node index.js <data.yml> <template.docx> [isOpen=false]');
     process.exit(1);
 }
 const ymlFilePath = process.argv[2];
 let templatePath = process.argv[3];
-let isOpen = process.argv[4];
+let isOpen = process.argv[4] || 'false';
 
 
 if (!fs.existsSync(templatePath)) {
