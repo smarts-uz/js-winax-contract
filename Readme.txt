@@ -13,4 +13,4 @@ node index.js "D:\Projects\Smart Software\JS\js-winax-contract\App\ALL.contract"
 node index.js "d:\FSystem\ALL\Humans\Rentalls\BossLegal\TRADEWAVE EXPORTS\ALL.contract" "d:\Humans\Building\Rentalls\Contract\Projects\Rentals 303.docx"
 
 
-node index.js "C:\Users\Администратор\Desktop\js-winax-contract\App\ALL.contract" "C:\Users\Администратор\Desktop\js-winax-contract\Rentals 330.docx"
+node all.js ""Z:\FileType\Testings\ALL.contractall"" "C:\Users\Администратор\Desktop\js-winax-contract\Rentals 330.docx"
