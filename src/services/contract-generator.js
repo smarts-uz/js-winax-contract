@@ -2,9 +2,13 @@ import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
 import winax from "winax";
+import dotenv from "dotenv";
 import { getNumberWordOnly, getRussianMonthName } from "../utils/number-to-text.js";
 import { exists, mkdirIfNotExists, getBaseName, getDirName } from "../utils/file-utils.js";
 import { PDF_FORMAT_CODE } from "../config/constants.js";
+
+// Load .env
+dotenv.config();
 
 /* ============================
    Helper: Get Company Initials
@@ -19,58 +23,38 @@ function getComNameInitials(name) {
 }
 
 /* ============================
-   Helper: Sanitize YAML Content
-   ============================ */
-function sanitizeYAML(content) {
-  return content
-    // Quote ContractFormat if contains curly braces
-    .replace(/^(\s*ContractFormat\s*:\s*)([^\n]+)$/gm, (_, key, value) => {
-      const val = value.trim();
-      if (!/^["'].*["']$/.test(val) && /[{}]/.test(val)) return `${key}"${val}"`;
-      return `${key}${val}`;
-    })
-    // Quote ContractNumber if contains spaces
-    .replace(/^(\s*ContractNumber\s*:\s*)([^\n]+)$/gm, (_, key, value) => {
-      const val = value.trim();
-      if (/\s/.test(val) && !/^["'].*["']$/.test(val)) return `${key}"${val}"`;
-      return `${key}${val}`;
-    });
-}
-
-/* ============================
    Function: Generate Contract Number
    ============================ */
-   function generateContractNumFromFormat(data) {
-    const prefix = data["ContractPrefix"] && data["ContractPrefix"].trim()
-      ? data["ContractPrefix"].trim()
-      : "RC";
-  
-    const format = data["ContractFormat"] && data["ContractFormat"].trim()
-      ? data["ContractFormat"].trim()
-      : "RC-{Year}-{Month}-{Day}";
-  
-    const values = {
-      ContractPrefix: prefix,
-      Prefix: prefix,
-      ComName: getComNameInitials(data["ComName"]),
-      CName: getComNameInitials(data["ComName"]),
-      Day: String(data["Day"] || "").padStart(2, "0"),
-      Month: String(data["Month"] || "").padStart(2, "0"),
-      Year: String(data["Year"] || "")
-    };
-  
-    return format.replace(
-      /\{(ContractPrefix|Prefix|ComName|CName|Day|Month|Year)\}/g,
-      (_, key) => values[key] || ""
-    );
-  }
-  
+function generateContractNumFromFormat(data) {
+  const prefix = data["ContractPrefix"] && data["ContractPrefix"].trim()
+    ? data["ContractPrefix"].trim()
+    : (process.env.ContractPrefix || "RC");
+
+  const format = data["ContractFormat"] && data["ContractFormat"].trim()
+    ? data["ContractFormat"].trim()
+    : (process.env.ContractFormat || "RC-{Year}-{Month}-{Day}");
+
+  const values = {
+    ContractPrefix: prefix,
+    Prefix: prefix,
+    ComName: getComNameInitials(data["ComName"]),
+    CName: getComNameInitials(data["ComName"]),
+    Day: String(data["Day"] || "").padStart(2, "0"),
+    Month: String(data["Month"] || "").padStart(2, "0"),
+    Year: String(data["Year"] || "")
+  };
+
+  return format.replace(
+    /\{(ContractPrefix|Prefix|ComName|CName|Day|Month|Year)\}/g,
+    (_, key) => values[key] || ""
+  );
+}
 
 /* ============================
    Function: Generate Contract Files (DOCX and PDF)
    ============================ */
 function generateContractFiles(data, ymlFilePath, templatePath) {
-  // Use ContractNumber if present and not empty, otherwise generate one
+  // Contract number from YAML → fallback to generated → fallback to ENV
   const contractNum = (data["ContractNumber"] && String(data["ContractNumber"]).trim() !== "")
     ? String(data["ContractNumber"]).trim()
     : generateContractNumFromFormat(data);
@@ -182,14 +166,11 @@ if (import.meta.url === process.argv[1] || import.meta.url === `file://${process
   }
 
   try {
-    // Load and sanitize YAML
-    let content = fs.readFileSync(yamlFilePath, "utf8");
-    content = sanitizeYAML(content);
-
-    // Parse YAML
+    // Load YAML directly
+    const content = fs.readFileSync(yamlFilePath, "utf8");
     const data = yaml.load(content);
 
-    // Determine contract number
+    // Determine contract number with fallback
     const contractNum = data["ContractNumber"]
       ? String(data["ContractNumber"]).replace(/\s+/g, "")
       : generateContractNumFromFormat(data);

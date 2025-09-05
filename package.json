@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "dotenv": "^17.2.2",
     "js-yaml": "^4.1.0",
     "number-to-words-ru": "^2.4.1",
     "winax": "^3.6.2"
