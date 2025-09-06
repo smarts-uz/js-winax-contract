@@ -4,9 +4,7 @@ Day: 22
 
 Area: 18
 
-ContractNumber:
-ContractPrefix: RCP
-ContractFormat: "{Prefix}-{CName}-{Year}-{Month}-{Day}"
+
 
 PrepayMonth: 5
 

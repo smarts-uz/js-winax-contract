@@ -4,11 +4,22 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { generateContractFiles } from './src/services/contract-generator.js';
 import { exec } from 'child_process';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Get parent path for current file
+const currentFilePath = process.argv[1];
+const currentDir = path.dirname(currentFilePath);
+console.log(currentDir);
 
+
+// Append .env to current path
+const envpath = path.join(currentDir, ".env");
+
+// === Load environment variables ===
+dotenv.config({ path: envpath });
 
 
 if (process.argv.length < 4) {
