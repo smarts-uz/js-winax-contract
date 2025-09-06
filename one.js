@@ -31,20 +31,14 @@ let templatePath = process.argv[3];
 let isOpen = process.argv[4] || 'false';
 
 
-if (!fs.existsSync(templatePath)) {
-    console.warn(`Template file not found at ${templatePath}. Using default template.`);
-    templatePath = "d:\\Humans\\Building\\Rentalls\\Contract\\Projects\\Rentals 282.docx";
-}
+
 
 
 if (!fs.existsSync(ymlFilePath)) {
     console.error(`YAML file not found: ${ymlFilePath}`);
     process.exit(1);
 }
-if (!fs.existsSync(templatePath)) {
-    console.error(`Template file not found: ${templatePath}`);
-    process.exit(1);
-}
+
 
 
 

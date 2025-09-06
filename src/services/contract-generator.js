@@ -4,7 +4,7 @@ import yaml from "js-yaml";
 import winax from "winax";
 import dotenv from "dotenv";
 import { getNumberWordOnly, getRussianMonthName } from "../utils/number-to-text.js";
-import { exists, mkdirIfNotExists, getBaseName, getDirName } from "../utils/file-utils.js";
+import { exists, mkdirIfNotExists, getBaseName, getDirName, openFileDialog } from "../utils/file-utils.js";
 import { PDF_FORMAT_CODE } from "../config/constants.js";
 
 // Load .env
@@ -62,9 +62,39 @@ function generateContractFiles(data, ymlFilePath, templatePath) {
   const area = data["Area"];
   const company = data["MyName"] && data["MyName"].includes("SMART TEAMS") ? "LLC" : "Person";
 
+  // Determine template path if not provided
+  if (!templatePath || templatePath === "") {
+    // Get computer name from environment or execute whoami command
+    let computerName = process.env.COMPUTERNAME || process.env.HOSTNAME;
+
+    if (!computerName) {
+      try {
+        const { execSync } = require("child_process");
+        if (process.platform === "win32") {
+          computerName = execSync("echo %COMPUTERNAME%", { encoding: "utf8" }).trim();
+        } else {
+          computerName = execSync("hostname", { encoding: "utf8" }).trim();
+        }
+      } catch (err) {
+        console.warn("Failed to get computer name:", err.message);
+        computerName = "Unknown";
+      }
+    }
+
+    let defaultTemplatePath;
+    if (computerName === "WorkPC") {
+      defaultTemplatePath = path.resolve(process.env.TemplateDirectoryWorkPC);
+    } else {
+      defaultTemplatePath = path.resolve(process.env.TemplateDirectory);
+    }
+    templatePath = openFileDialog(defaultTemplatePath);
+  }
+  console.log("Selected template", templatePath);
+
   // Start Word application
   const word = new winax.Object("Word.Application");
   word.Visible = false;
+
 
   // Prepare paths
   const docPath = path.resolve(templatePath);
