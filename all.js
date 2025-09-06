@@ -8,9 +8,9 @@ import { execSync } from "child_process";
 // Usage: node run-all.js <actrecoFile> <sourceExcelFile>
 const [,, actrecoFile, sourceExcelPath] = process.argv;
 
-if (!actrecoFile || !sourceExcelPath) {
-  console.error("❌ Usage: node all.js <actrecoFilePath> <sourceExcelFilePath>");
-  process.exit(1);
+if (process.argv.length < 4) {
+    console.error('Usage: node index.js <data.yml> <template.docx> [isOpen=false]');
+    process.exit(1);
 }
 
 // Get parent folder of the .actreco file

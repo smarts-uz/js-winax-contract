@@ -13,7 +13,8 @@ node "D:\Projects\Smart Software\JS\js-winax-contract\one.js" "D:\Projects\Smart
 node index.js "d:\FSystem\ALL\Humans\Rentalls\BossLegal\TRADEWAVE EXPORTS\ALL.contract" "d:\Humans\Building\Rentalls\Contract\Projects\Rentals 303.docx"
 
 
-node "D:\Projects\Smart Software\JS\js-winax-contract\all.js" "D:\Projects\Smart Software\JS\js-winax-contract\App\ALL.contract" "D:\Projects\Smart Software\JS\js-winax-contract\Rentals 330.docx"
+node "D:\Projects\Smart Software\JS\js-winax-contract\all.js" "Z:\FileType\______\ALL.contractall" "D:\Projects\Smart Software\JS\js-winax-contract\Rentals 330.docx"
 
 
 node "D:\Projects\Smart Software\JS\js-winax-contract\one.js" "D:\Projects\Smart Software\JS\js-winax-contract\App\ALL.contract" "D:\Projects\Smart Software\JS\js-winax-contract\Rentals 330.docx"
+node "D:\Projects\Smart Software\JS\js-winax-contract\all.js" "Z:\FileType\______\ALL.contractall" ""
